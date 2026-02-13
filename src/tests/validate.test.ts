@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import type { TimesheetRow } from '../domain/types';
 import { validateRow } from '../domain/validate';
 
 describe('validation', () => {
   it('checks date in week and required fields', () => {
-    const row: TimesheetRow = {
+    const row = {
       id: '1',
       date: '2026-01-20',
       project: '',
