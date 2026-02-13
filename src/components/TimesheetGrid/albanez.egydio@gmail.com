@@ -40,9 +40,20 @@ export const useClipboardPaste = (
         const key = `${row.id}:${col}`;
         const v = value.trim();
         if (col === 'travel') {
-          const num = v === '' ? null : Number(v);
-          if (v !== '' && (Number.isNaN(num) || num < 0)) invalid.push(key);
-          else row.travel = num;
+          // travel
+if (v === '') {
+  row.travel = null;
+  return;
+}
+
+const num = Number(v);
+if (Number.isNaN(num) || num < 0) {
+  invalid.push(key);
+  return;
+}
+
+row.travel = num;
+
         } else if (col === 'startTime' || col === 'endTime') {
           const normalized = normalizeTime(v);
           if (!normalized) invalid.push(key);
