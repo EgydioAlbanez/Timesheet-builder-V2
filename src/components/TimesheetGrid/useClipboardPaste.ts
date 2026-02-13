@@ -26,10 +26,7 @@ export const useClipboardPaste = (
     if (!text.includes('\t') && !text.includes('\n')) return;
     e.preventDefault();
 
-    const matrix = text
-      .split(/\r?\n/)
-      .filter(Boolean)
-      .map((line) => line.split('\t'));
+    const matrix = text.split(/\r?\n/).filter(Boolean).map((line) => line.split('\t'));
     const startIndex = editableColumns.indexOf(startCol);
     const draft = rows.map((r) => ({ ...r }));
     const invalid: string[] = [];
@@ -43,12 +40,8 @@ export const useClipboardPaste = (
         const key = `${row.id}:${col}`;
         const v = value.trim();
         if (col === 'travel') {
-          if (v === '') {
-            row.travel = null;
-            return;
-          }
-          const num = Number(v);
-          if (Number.isNaN(num) || num < 0) invalid.push(key);
+          const num = v === '' ? null : Number(v);
+          if (v !== '' && (Number.isNaN(num) || num < 0)) invalid.push(key);
           else row.travel = num;
         } else if (col === 'startTime' || col === 'endTime') {
           const normalized = normalizeTime(v);
