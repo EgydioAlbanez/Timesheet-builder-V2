@@ -1,10 +1,19 @@
+import type { ClipboardEvent } from 'react';
 import type { TimesheetRow } from '../../domain/types';
 import { normalizeTime } from '../../domain/time';
 import type { EditableColumnKey } from './useGridNavigation';
 
-const editableColumns: EditableColumnKey[] = ['date', 'project', 'scope', 'serviceCategory', 'serviceType', 'startTime', 'endTime', 'travel', 'comments'];
-
-import type { ClipboardEvent } from 'react';
+const editableColumns: EditableColumnKey[] = [
+  'date',
+  'project',
+  'scope',
+  'serviceCategory',
+  'serviceType',
+  'startTime',
+  'endTime',
+  'travel',
+  'comments'
+];
 
 export const useClipboardPaste = (
   rows: TimesheetRow[],
@@ -38,8 +47,10 @@ export const useClipboardPaste = (
           const normalized = normalizeTime(v);
           if (!normalized) invalid.push(key);
           else row[col] = normalized;
+        } else if (col === 'serviceCategory') {
+          row.serviceCategory = v as TimesheetRow['serviceCategory'];
         } else {
-          (row[col] as string) = v;
+          row[col] = v as never;
         }
       });
     });
